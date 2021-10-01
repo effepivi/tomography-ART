@@ -7,6 +7,11 @@
 
 #include "Image.h"
 
+#ifdef __APPLE__
+typedef unsigned int TIFF_UINT32_T;
+typedef unsigned short TIFF_UINT16_T;
+#endif
+
 #define DEBUG
 
 
