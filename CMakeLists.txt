@@ -25,7 +25,10 @@ find_package(TIFF REQUIRED)
 #    set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 #endif()
 
-add_executable(myART include/Image.h include/Image.inl src/Image.cxx src/myART.cxx)
+add_executable(myART
+    include/cmdline.h src/cmdline.cxx
+    include/Image.h include/Image.inl src/Image.cxx
+    src/myART.cxx)
 
 target_include_directories(myART PRIVATE ${TIFF_INCLUDE_DIRS} include)
 

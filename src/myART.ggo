@@ -1,0 +1,9 @@
+version "0.1"
+package "myART"
+purpose "C++ code to reconstruct X-ray tomographic data using the algebraic reconstruction technique (ART). It is an iterative reconstruction algorithm."
+
+# Options
+option "reference_CT" r "Reference CT slice" string optional
+option "reference_sinogram" s "Input sinogram" string required
+option "reconstruction" o "Output reconstructed image" string optional
+option "iterations" i "Number of iterations of the ART algorithm" int required
