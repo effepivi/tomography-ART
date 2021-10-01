@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <cmath>
 
 
@@ -130,6 +131,21 @@ inline Image& Image::operator=(const Image& anImage)
 inline Image& Image::operator+=(const Image& anImage)
 //---------------------------------------------------
 {
+    // Check the image sizes are the same
+    if (getCols() != anImage.getCols() ||
+        getRows() != anImage.getRows() ||
+        getSlices() != anImage.getSlices())
+    {
+        stringstream error_message;
+        error_message << "EXCEPTION caught: " << endl <<
+            "File: " << __FILE__ << endl <<
+            "Function: " << __FUNCTION__ << endl <<
+            "Line: " << __LINE__ << endl <<
+            "Message: " << "Images do not have the same size" << endl;
+
+        throw error_message.str();
+    }
+
     // Deal with images of different sizes
     unsigned int min_width( std::min(m_cols,  anImage.m_cols));
     unsigned int min_height(std::min(m_rows, anImage.m_rows));
@@ -150,6 +166,21 @@ inline Image& Image::operator+=(const Image& anImage)
 inline Image& Image::operator*=(const Image& anImage)
 //---------------------------------------------------
 {
+    // Check the image sizes are the same
+    if (getCols() != anImage.getCols() ||
+        getRows() != anImage.getRows() ||
+        getSlices() != anImage.getSlices())
+    {
+        stringstream error_message;
+        error_message << "EXCEPTION caught: " << endl <<
+            "File: " << __FILE__ << endl <<
+            "Function: " << __FUNCTION__ << endl <<
+            "Line: " << __LINE__ << endl <<
+            "Message: " << "Images do not have the same size" << endl;
+
+        throw error_message.str();
+    }
+
     // Deal with images of different sizes
     unsigned int min_width( std::min(m_cols,  anImage.m_cols));
     unsigned int min_height(std::min(m_rows, anImage.m_rows));
@@ -363,10 +394,17 @@ inline Image Image::operator/(double k) const
 inline float& Image::getPixel(int x, int y, int z)
 //------------------------------------------------
 {
+    // Check the validity of the voxel index
     if (x < 0 || x > m_cols || y < 0 || y > m_rows || z < 0 || z > m_slices)
     {
-        cerr << "Invalid pixel index." << endl;
-        exit(EXIT_FAILURE);
+        stringstream error_message;
+        error_message << "EXCEPTION caught: " << endl <<
+            "File: " << __FILE__ << endl <<
+            "Function: " << __FUNCTION__ << endl <<
+            "Line: " << __LINE__ << endl <<
+            "Message: " << "Invalid voxel index" << endl;
+
+        throw error_message.str();
     }
 
     return m_p_voxel_set[z * m_cols * m_rows + y * m_cols + x];
@@ -377,10 +415,17 @@ inline float& Image::getPixel(int x, int y, int z)
 inline const float& Image::getPixel(int x, int y, int z) const
 //------------------------------------------------------------
 {
+    // Check the validity of the voxel index
     if (x < 0 || x > m_cols || y < 0 || y > m_rows || z < 0 || z > m_slices)
     {
-        cerr << "Invalid pixel index." << endl;
-        exit(EXIT_FAILURE);
+        stringstream error_message;
+        error_message << "EXCEPTION caught: " << endl <<
+            "File: " << __FILE__ << endl <<
+            "Function: " << __FUNCTION__ << endl <<
+            "Line: " << __LINE__ << endl <<
+            "Message: " << "Invalid voxel index" << endl;
+
+        throw error_message.str();
     }
 
     return m_p_voxel_set[z * m_cols * m_rows + y * m_cols + x];
@@ -453,13 +498,19 @@ inline Image Image::getROI(unsigned int i,
                 unsigned int index_j(y + j);
                 unsigned int index_k(z + k);
 
-                // The pixel index is not valid
+                // Check the validity of the voxel index
                 if ((index_i >= m_cols) ||
                         (index_j >= m_rows) ||
                         (index_k >= m_slices))
                 {
-                    cerr << "Invalid pixel index" << endl;
-                    exit(EXIT_FAILURE);
+                    stringstream error_message;
+                    error_message << "EXCEPTION caught: " << endl <<
+                        "File: " << __FILE__ << endl <<
+                        "Function: " << __FUNCTION__ << endl <<
+                        "Line: " << __LINE__ << endl <<
+                        "Message: " << "Invalid voxel index" << endl;
+
+                    throw error_message.str();
                 }
 
                 // Get the pixel intensity from the current instance
@@ -514,6 +565,21 @@ inline double Image::getStd() const
 inline double Image::rmse(const Image& anImage) const
 //---------------------------------------------------
 {
+    // Check the image sizes are the same
+    if (getCols() != anImage.getCols() ||
+        getRows() != anImage.getRows() ||
+        getSlices() != anImage.getSlices())
+    {
+        stringstream error_message;
+        error_message << "EXCEPTION caught: " << endl <<
+            "File: " << __FILE__ << endl <<
+            "Function: " << __FUNCTION__ << endl <<
+            "Line: " << __LINE__ << endl <<
+            "Message: " << "Images do not have the same size" << endl;
+
+        throw error_message.str();
+    }
+
     return std::sqrt((*this - anImage).square().getMean());
 }
 
@@ -522,6 +588,21 @@ inline double Image::rmse(const Image& anImage) const
 inline double Image::zncc(const Image& anImage) const
 //---------------------------------------------------
 {
+    // Check the image sizes are the same
+    if (getCols() != anImage.getCols() ||
+        getRows() != anImage.getRows() ||
+        getSlices() != anImage.getSlices())
+    {
+        stringstream error_message;
+        error_message << "EXCEPTION caught: " << endl <<
+            "File: " << __FILE__ << endl <<
+            "Function: " << __FUNCTION__ << endl <<
+            "Line: " << __LINE__ << endl <<
+            "Message: " << "Images do not have the same size" << endl;
+
+        throw error_message.str();
+    }
+
     Image temp1 = *this - getMean();
     Image temp2 = anImage - anImage.getMean();
 

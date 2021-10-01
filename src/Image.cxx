@@ -187,56 +187,104 @@ void Image::loadTIFF(const char* aFileName)
         // Read dimensions of image
         if (TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &width) != 1)
         {
-            cerr << "Failed to read width" << endl;
-            exit(1);
+            stringstream error_message;
+            error_message << "EXCEPTION caught: " << endl <<
+                "File: " << __FILE__ << endl <<
+                "Function: " << __FUNCTION__ << endl <<
+                "Line: " << __LINE__ << endl <<
+                "Message: " << "Failed to read width" << endl;
+
+            throw error_message.str();
         }
 
         if (TIFFGetField(tif, TIFFTAG_IMAGELENGTH, &height) != 1)
         {
-            cerr << "Failed to read height" << endl;
-            exit(1);
+            stringstream error_message;
+            error_message << "EXCEPTION caught: " << endl <<
+                "File: " << __FILE__ << endl <<
+                "Function: " << __FUNCTION__ << endl <<
+                "Line: " << __LINE__ << endl <<
+                "Message: " << "Failed to read height" << endl;
+
+            throw error_message.str();
         }
 
         // Get the number of bits per pixel
         TIFF_UINT16_T number_of_bits_per_pixel = 0;
         if (TIFFGetField(tif, TIFFTAG_BITSPERSAMPLE, &number_of_bits_per_pixel) != 1)
         {
-            cerr << "Could not get the number of bits per pixel in the TIFF file" << endl;
-            exit(1);
+            stringstream error_message;
+            error_message << "EXCEPTION caught: " << endl <<
+                "File: " << __FILE__ << endl <<
+                "Function: " << __FUNCTION__ << endl <<
+                "Line: " << __LINE__ << endl <<
+                "Message: " << "Failed to read number of bits per pixel" << endl;
+
+            throw error_message.str();
         }
 
         // Get the number of samples per pixel
         TIFF_UINT16_T number_of_samples_per_pixel = 0;
         if (TIFFGetField(tif, TIFFTAG_SAMPLESPERPIXEL, &number_of_samples_per_pixel) != 1)
         {
-            cerr << "Could not set the orientation in the TIFF file" << endl;
-            exit(1);
+            stringstream error_message;
+            error_message << "EXCEPTION caught: " << endl <<
+                "File: " << __FILE__ << endl <<
+                "Function: " << __FUNCTION__ << endl <<
+                "Line: " << __LINE__ << endl <<
+                "Message: " << "Failed to read orientation" << endl;
+
+            throw error_message.str();
         }
 
         // Get the format of a sample
         TIFF_UINT16_T format_of_a_sample = 0;
         if (TIFFGetField(tif, TIFFTAG_SAMPLEFORMAT, &format_of_a_sample) != 1)
         {
-            cerr << "Could not set the data type in the TIFF file" << endl;
-            exit(1);
+            stringstream error_message;
+            error_message << "EXCEPTION caught: " << endl <<
+                "File: " << __FILE__ << endl <<
+                "Function: " << __FUNCTION__ << endl <<
+                "Line: " << __LINE__ << endl <<
+                "Message: " << "Failed to read data type" << endl;
+
+            throw error_message.str();
         }
 
         if (number_of_bits_per_pixel != 32)
         {
-            cerr << "Not a valid TIFF format for this application" << endl;
-            exit(1);
+            stringstream error_message;
+            error_message << "EXCEPTION caught: " << endl <<
+                "File: " << __FILE__ << endl <<
+                "Function: " << __FUNCTION__ << endl <<
+                "Line: " << __LINE__ << endl <<
+                "Message: " << "Not a valid TIFF format for this application" << endl;
+
+            throw error_message.str();
         }
 
         if (number_of_samples_per_pixel != 1)
         {
-            cerr << "Not a valid TIFF format for this application" << endl;
-            exit(1);
+            stringstream error_message;
+            error_message << "EXCEPTION caught: " << endl <<
+                "File: " << __FILE__ << endl <<
+                "Function: " << __FUNCTION__ << endl <<
+                "Line: " << __LINE__ << endl <<
+                "Message: " << "Not a valid TIFF format for this application" << endl;
+
+            throw error_message.str();
         }
 
         if (format_of_a_sample != SAMPLEFORMAT_IEEEFP)
         {
-            cerr << "Not a valid TIFF format for this application" << endl;
-            exit(1);
+            stringstream error_message;
+            error_message << "EXCEPTION caught: " << endl <<
+                "File: " << __FILE__ << endl <<
+                "Function: " << __FUNCTION__ << endl <<
+                "Line: " << __LINE__ << endl <<
+                "Message: " << "Not a valid TIFF format for this application" << endl;
+
+            throw error_message.str();
         }
 
 	    uint32 npixels = width * height;
@@ -253,8 +301,14 @@ void Image::loadTIFF(const char* aFileName)
         }
         else
         {
-            cerr << "Image not in float32" << endl;
-            exit(1);
+            stringstream error_message;
+            error_message << "EXCEPTION caught: " << endl <<
+                "File: " << __FILE__ << endl <<
+                "Function: " << __FUNCTION__ << endl <<
+                "Line: " << __LINE__ << endl <<
+                "Message: " << "Not a valid TIFF format for this application" << endl;
+
+            throw error_message.str();
         }
 
         _TIFFfree(raster);
@@ -268,8 +322,14 @@ void Image::loadTIFF(const char* aFileName)
     // The TIFF file is not open
     else
     {
-        cerr << "Failed to open image" << endl;
-        exit(EXIT_FAILURE);
+        stringstream error_message;
+        error_message << "EXCEPTION caught: " << endl <<
+            "File: " << __FILE__ << endl <<
+            "Function: " << __FUNCTION__ << endl <<
+            "Line: " << __LINE__ << endl <<
+            "Message: " << "Failed to open image (" << aFileName << ")" << endl;
+
+        throw error_message.str();
     }
 }
 
