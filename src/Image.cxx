@@ -81,12 +81,16 @@ Image Image::iradon(const vector<double>& aSetOfAnglesInDegrees) const
 
         Image back_projection(getCols(), getCols(), getSlices(), 0.0);
 
+        int nslices = reconstruction.getSlices();
+        int nrows = reconstruction.getRows();
+        int ncols = reconstruction.getCols();
+        
 #pragma omp parallel for collapse(2)
-        for (int k = 0; k < reconstruction.getSlices(); ++k)
+        for (int k = 0; k < nslices; ++k)
         {
-            for (int j = 0; j < reconstruction.getRows(); ++j)
+            for (int j = 0; j < nrows; ++j)
             {
-                for (int i = 0; i < reconstruction.getCols(); ++i)
+                for (int i = 0; i < ncols; ++i)
                 {
                     back_projection(i, j, k) += getPixel(i, angle_id, k);
                 }
