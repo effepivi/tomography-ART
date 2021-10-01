@@ -84,7 +84,7 @@ Image Image::iradon(const vector<double>& aSetOfAnglesInDegrees) const
         int nslices = reconstruction.getSlices();
         int nrows = reconstruction.getRows();
         int ncols = reconstruction.getCols();
-        
+
 #pragma omp parallel for collapse(2)
         for (int k = 0; k < nslices; ++k)
         {
@@ -136,9 +136,9 @@ Image Image::iradonART(const vector<double>& aSetOfAnglesInDegrees,
         // Make sure no voxel is negative as it is not possible
         int npixel = reconstruction.size();
 #pragma omp parallel for
-        for (int i = 0; i < npixel; ++i)
+        for (int pixel_id = 0; pixel_id < npixel; ++pixel_id)
         {
-            reconstruction.m_p_voxel_set[i] = max(0.0f, reconstruction.m_p_voxel_set[i]); // Avoid using branching
+            reconstruction.m_p_voxel_set[pixel_id] = max(0.0f, reconstruction.m_p_voxel_set[pixel_id]); // Avoid using branching
         }
 
 #ifdef DEBUG
